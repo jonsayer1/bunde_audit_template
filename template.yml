@@ -1,0 +1,8 @@
+
+review:bundle_secutiy_audit:
+  extends: .ruby_base
+  stage: security
+  allow_failure: true
+  script:
+    - gem install bundler-audit
+    - bundle audit check --update
