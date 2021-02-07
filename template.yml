@@ -5,7 +5,6 @@ stages:
   - review
   - deploy
 
-
 bundle_secutiy_audit:
   extends: .ruby_base
   allow_failure: false
