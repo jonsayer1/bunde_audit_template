@@ -9,7 +9,7 @@ bundle_secutiy_audit:
 rubocop:
   extends: .ruby_base
   stage: review
-  allow_failure: true
+  allow_failure: false
   artifacts:
     name: rubocop_report
     when: always
@@ -23,5 +23,67 @@ rubocop:
     - gem install rubocop-performance
     - gem install rubocop-rspec
     - rubocop --format html -o rubocop/index.html
+  only: 
+    - merge_requests
+    
+rubycritic:
+  extends: .ruby_base
+  stage: review
+  allow_failure: false
+  artifacts:
+    name: rubycritic_report
+    when: always
+    paths:
+      - tmp/rubycritic/
+    expire_in: 1 week
+  script:
+    - gem install rubycritic
+    - rubycritic
+  only: 
+    - merge_requests
+
+brakeman:
+  extends: .ruby_base
+  stage: review
+  allow_failure: false
+  artifacts:
+    name: brakeman_report
+    when: always
+    paths:
+      - brakeman/
+    expire_in: 1 week
+  script:
+    - gem install brakeman
+    - brakeman --format html -o brakeman/index.html
+  only: 
+    - merge_requests
+
+license_finder:
+  extends: .ruby_base
+  stage: security
+  allow_failure: false
+  script:
+    - source ~/.profile
+    - gem install bundler
+    - gem install license_finder
+    - bundle install --path vendor/bundle
+    - license_finder
+  only: 
+    - merge_requests
+
+rails_best_pratices:
+  extends: .ruby_base
+  stage: review
+  allow_failure: true
+  artifacts:
+    name: rails_best_practices_report
+    when: always
+    paths:
+      - rails_best_practices/
+    expire_in: 1 week
+  script:
+    - gem install rails_best_practices
+    - mkdir rails_best_practices
+    - rails_best_practices -f html . --output-file rails_best_practices/index.html
   only: 
     - merge_requests
