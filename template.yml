@@ -5,6 +5,9 @@ bundle_secutiy_audit:
   script:
     - gem install bundler-audit
     - bundle audit check --update
+   only:
+    - merge_requests
+    - pushes
     
 rubocop:
   extends: .ruby_base
