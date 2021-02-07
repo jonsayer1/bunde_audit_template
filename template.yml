@@ -1,3 +1,10 @@
+stages:
+  - build
+  - security
+  - test
+  - review
+  - deploy
+
 bundle_secutiy_audit: 
   allow_failure: false
   extends: .ruby_base
