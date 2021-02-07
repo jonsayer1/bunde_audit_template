@@ -1,13 +1,14 @@
-bundle_secutiy_audit:
-  extends: .ruby_base
+bundle_secutiy_audit: 
   allow_failure: false
-  stage: security
-  script:
-    - gem install bundler-audit
-    - bundle audit check --update
-   only:
+  extends: .ruby_base
+  only: 
     - merge_requests
     - pushes
+  script: 
+    - "gem install bundler-audit"
+    - "bundle audit check --update"
+  stage: security
+
     
 rubocop:
   extends: .ruby_base
