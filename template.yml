@@ -1,3 +1,22 @@
+amigo_update: 
+  extends: .ruby_base
+  only: 
+    - master
+    - staging
+    - develop
+  script: 
+    - "./bin/amigo update $CI_PROJECT_NAME $CI_COMMIT_BRANCH"
+  stage: build
+images: 
+  extends: .docker_base
+  only: 
+    - merge_requests
+    - pushes
+  script: 
+    - "docker build -f .dockerdev/Dockerfile --build-arg RUBY_VERSION=$RUBY_VERSION --build-arg DEBIAN_VERSION=$DEBIAN_VERSION --build-arg MYSQL_MAJOR=$MYSQL_MAJOR --build-arg NODE_MAJOR=$NODE_MAJOR --build-arg BUNDLER_VERSION=$BUNDLER_VERSION --build-arg RAILSLTS_USER=$RAILSLTS_USER --build-arg RAILSLTS_PASSWORD=$RAILSLTS_PASSWORD -t $CONTAINER_TEST_IMAGE ."
+    - "docker push $CONTAINER_TEST_IMAGE"
+  stage: build
+
 bundle_secutiy_audit: 
   allow_failure: false
   extends: .ruby_base
