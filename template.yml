@@ -1,4 +1,3 @@
-
 review:bundle_secutiy_audit:
   extends: .ruby_base
   stage: security
