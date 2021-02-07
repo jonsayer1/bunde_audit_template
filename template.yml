@@ -7,6 +7,7 @@ amigo_update:
   script: 
     - "./bin/amigo update $CI_PROJECT_NAME $CI_COMMIT_BRANCH"
   stage: build
+  
 images: 
   extends: .docker_base
   only: 
